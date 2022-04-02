@@ -14,7 +14,7 @@ import { INTERACTIVES } from '~/enums/Interactives';
 let player: EntityConfig<CharacterData> = {
 	func: Player,
 	data: {
-		x: 0,
+		x: 16,
 		y: 288,
 		z: 0,
 		pivotX: 0.5,
