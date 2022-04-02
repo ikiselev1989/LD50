@@ -10,12 +10,12 @@ import * as Phaser from 'phaser';
 const config = {
 	type: Phaser.AUTO,
 	backgroundColor: '#422531',
-	width: 640,
-	height: 360,
+	width: 640 * 0.75,
+	height: 360 * 0.75,
 	scene: [Loader, Playground],
 	pixelArt: true,
 	scale: {
-		// mode: Phaser.Scale.ScaleModes.FIT,
+		mode: Phaser.Scale.ScaleModes.FIT,
 		autoCenter: Phaser.Scale.CENTER_BOTH,
 	},
 };

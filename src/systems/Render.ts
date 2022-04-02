@@ -20,6 +20,8 @@ const Render: SystemCreateFunction = scene => {
 
 		sprites.set(eid, sprite);
 
+		scene.addEntitiesRender(eid, sprite);
+
 		return sprite;
 	}
 

@@ -5,14 +5,15 @@ import Player from '~/entities/Player';
 import Render from '~/systems/Render';
 import Movement from '~/systems/Movement';
 import PlayerInput from '~/systems/PlayerInput';
+import CameraFollow from '~/systems/CameraFollow';
 import { SCENES } from '~/enums/Scenes';
 import { CHARACTER_TEXTURES } from '~/enums/CharacterTextures';
 
 let player: EntityConfig<CharacterData> = {
 	func: Player,
 	data: {
-		x: 200,
-		y: 250,
+		x: 0,
+		y: 0,
 		z: 0,
 		texture: CHARACTER_TEXTURES.PLAYER,
 		speed: 1,
@@ -22,7 +23,7 @@ let player: EntityConfig<CharacterData> = {
 export default class Playground extends SceneECS {
 	sceneECSData: SceneECSData = {
 		entities: [player],
-		systems: [Movement, Render, PlayerInput],
+		systems: [Movement, Render, PlayerInput, CameraFollow],
 	};
 
 	constructor() {
@@ -34,5 +35,7 @@ export default class Playground extends SceneECS {
 
 	create() {
 		super.create();
+
+		this.add.image(0, 0, 'bg');
 	}
 }
