@@ -10,6 +10,8 @@ export default class Loader extends Scene {
 	preload() {
 		this.load.image(CHARACTER_TEXTURES.PLAYER, `/animations/${CHARACTER_TEXTURES.PLAYER}.png`);
 
+		this.load.aseprite('cleaner', '/animations/cleaner/cleaner.png', '/animations/cleaner/cleaner.json');
+
 		this.load.image('tiles', `tiles..png`);
 		this.load.image('bg', `bg.png`);
 

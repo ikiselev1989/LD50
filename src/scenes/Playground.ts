@@ -68,5 +68,10 @@ export default class Playground extends SceneECS {
 			}
 		});
 
+		this.anims.createFromAseprite('cleaner');
+
+		let cleaner = this.add.sprite(106, 288, 'cleaner').play({ key: 'Cleaner-Clean', repeat: -1 });
+
+		cleaner.setOrigin(0.5, 1);
 	}
 }
