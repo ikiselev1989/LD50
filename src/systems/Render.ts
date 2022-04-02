@@ -41,6 +41,8 @@ const Render: SystemCreateFunction = scene => {
 			sprite.y = PositionComponent.y[eid];
 			sprite.z = PositionComponent.z[eid];
 
+			sprite.setOrigin(SpriteComponent.pivotX[eid], SpriteComponent.pivotY[eid]);
+
 			sprite.flipX = !!SpriteComponent.flipX[eid];
 		}
 

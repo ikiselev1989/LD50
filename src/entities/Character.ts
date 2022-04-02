@@ -12,12 +12,14 @@ export type CharacterData = {
 	x: number;
 	y: number;
 	z: number;
+	pivotX: number,
+	pivotY: number,
 	texture: CHARACTER_TEXTURES;
 	speed: number;
 };
 
 const Character: EntityCreateFunc<CharacterData> = (world, data) => {
-	const { x, y, z, texture, speed } = data;
+	const { x, y, z, texture, speed, pivotX, pivotY } = data;
 	const eid = addEntity(world);
 
 	addComponent(world, PositionComponent, eid);
@@ -28,6 +30,8 @@ const Character: EntityCreateFunc<CharacterData> = (world, data) => {
 	PositionComponent.y[eid] = y;
 	PositionComponent.z[eid] = z;
 
+	SpriteComponent.pivotX[eid] = pivotX;
+	SpriteComponent.pivotY[eid] = pivotY;
 	SpriteComponent.texture[eid] = Utils.getEnumStringValueIndex(CHARACTER_TEXTURES, texture);
 	SpriteComponent.flipX[eid] = FLIP_STATE.NO_FLIP;
 

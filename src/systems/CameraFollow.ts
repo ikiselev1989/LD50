@@ -16,7 +16,7 @@ const CameraFollow: SystemCreateFunction = scene => {
 			const sprite = scene.getEntitiesRender(eid);
 
 			scene.cameras.main.stopFollow();
-			scene.cameras.main.startFollow(<Phaser.GameObjects.Sprite>sprite, true, 0.5, 0.5, 0.5);
+			scene.cameras.main.startFollow(<Phaser.GameObjects.Sprite>sprite, true, 100, 0, 0, 75);
 		}
 
 		return world;

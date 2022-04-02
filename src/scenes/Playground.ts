@@ -15,6 +15,8 @@ let player: EntityConfig<CharacterData> = {
 		x: 0,
 		y: 0,
 		z: 0,
+		pivotX: 0.5,
+		pivotY: 1,
 		texture: CHARACTER_TEXTURES.PLAYER,
 		speed: 1,
 	},
@@ -36,6 +38,6 @@ export default class Playground extends SceneECS {
 	create() {
 		super.create();
 
-		this.add.image(0, 0, 'bg');
+		this.add.image(0, 0, 'bg').setOrigin(0, 1);
 	}
 }
