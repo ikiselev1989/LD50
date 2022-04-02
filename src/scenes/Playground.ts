@@ -15,7 +15,7 @@ let player: EntityConfig<CharacterData> = {
 	func: Player,
 	data: {
 		x: 0,
-		y: 240,
+		y: 288,
 		z: 0,
 		pivotX: 0.5,
 		pivotY: 1,
