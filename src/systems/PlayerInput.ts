@@ -22,7 +22,7 @@ const PlayerInput: SystemCreateFunction = scene => {
 				MovementComponent.direction[eid] = DIRECTIONS.RIGHT;
 			}
 
-			if (!left.isDown && !right.isDown) {
+			if ((!left.isDown && !right.isDown) || (left.isDown && right.isDown)) {
 				MovementComponent.direction[eid] = DIRECTIONS.NONE;
 			}
 		}

@@ -9,6 +9,7 @@ import CameraFollow from '~/systems/CameraFollow';
 import { SCENES } from '~/enums/Scenes';
 import { CHARACTER_TEXTURES } from '~/enums/CharacterTextures';
 import { MAP_LAYERS } from '~/enums/MapLayers';
+import { INTERACTIVES } from '~/enums/Interactives';
 
 let player: EntityConfig<CharacterData> = {
 	func: Player,
@@ -49,5 +50,23 @@ export default class Playground extends SceneECS {
 		map.createLayer(MAP_LAYERS.DOORS, tileset);
 		map.createLayer(MAP_LAYERS.FURNITURES, tileset);
 		map.createLayer(MAP_LAYERS.OBJECTS, tileset);
+
+		const objectsLayer = map.getObjectLayer(MAP_LAYERS.INTERACTIVES);
+		objectsLayer.objects.forEach(ob => {
+			switch (ob.name) {
+				case INTERACTIVES.DOOR:
+					break;
+
+				case INTERACTIVES.PAPPERS:
+					break;
+
+				case INTERACTIVES.SHREDDER:
+					break;
+
+				default:
+					return;
+			}
+		});
+
 	}
 }

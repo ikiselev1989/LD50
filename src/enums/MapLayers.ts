@@ -3,5 +3,6 @@ export enum MAP_LAYERS {
 	ELEVATORS = 'elevators',
 	DOORS = 'doors',
 	FURNITURES = 'furnitures',
-	OBJECTS = 'objects'
+	OBJECTS = 'objects',
+	INTERACTIVES = 'interactives'
 }
