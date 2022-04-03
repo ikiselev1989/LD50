@@ -124,6 +124,8 @@ export default class Player {
 		await Utils.asyncAnimation(sprite, 'Shredder-Work');
 
 		sprite.play({ key: 'Shredder-Full', repeat: -1 });
+
+		if (this.scene.shredders.getLength() === 1) this.scene.nextScene();
 	}
 
 	private async useDoor(sprite: Sprite) {

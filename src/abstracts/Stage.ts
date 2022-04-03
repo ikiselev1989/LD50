@@ -64,6 +64,10 @@ export default abstract class Stage extends Phaser.Scene {
 		this.scene.start(this);
 	}
 
+	nextScene() {
+		console.log('nextScene');
+	}
+
 	private createPlayer() {
 		this.player = new Player(this, this.playerPosition);
 	}
