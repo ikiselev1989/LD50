@@ -3,16 +3,16 @@ import 'regenerator-runtime/runtime';
 import '~/styles/main.scss';
 
 import 'phaser';
-import Stage1 from '~/scenes/Stage1';
 import Loader from '~/scenes/Loader';
-import * as Phaser from 'phaser';
+import Stage1 from '~/scenes/Stage1';
+import Stage2 from '~/scenes/Stage2';
 
 const config = {
 	type: Phaser.AUTO,
 	backgroundColor: '#422531',
 	width: 640 * 0.75,
 	height: 360 * 0.75,
-	scene: [Loader, Stage1],
+	scene: [Loader, Stage1, Stage2],
 	pixelArt: true,
 	scale: {
 		mode: Phaser.Scale.ScaleModes.FIT,

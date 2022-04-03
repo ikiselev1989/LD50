@@ -7,11 +7,13 @@ import Player from '~/player';
 import { Depth } from '~/enums/Depth';
 import { StairsDirection } from '~/enums/StairsDirection';
 import { Utils } from '~/utils';
+import { SCENES } from '~/enums/Scenes';
 
 export default abstract class Stage extends Phaser.Scene {
 	abstract playerPosition: { x: number, y: number };
 	abstract stageMap: string;
 	abstract timeOut: number;
+	abstract nextSceneName: SCENES;
 
 	protected player!: Player;
 
@@ -65,7 +67,7 @@ export default abstract class Stage extends Phaser.Scene {
 	}
 
 	nextScene() {
-		console.log('nextScene');
+		this.scene.start(this.nextSceneName);
 	}
 
 	private createPlayer() {

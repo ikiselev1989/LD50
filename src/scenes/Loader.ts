@@ -24,7 +24,7 @@ export default class Loader extends Scene {
 		this.load.image('tiles', `tiles.png`);
 
 		this.load.on('complete', () => {
-			this.scene.launch(SCENES.PLAYGROUND);
+			this.scene.launch(SCENES.SCENE2);
 		});
 	}
 }
