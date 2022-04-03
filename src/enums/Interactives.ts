@@ -4,6 +4,5 @@ export enum Interactives {
 	Shredder = 'Shredder',
 	Pappers = 'Pappers',
 	Cleaner = 'Cleaner',
-	Table = 'Table',
-	Hides = 'Hides'
+	Clock = 'Clock',
 }

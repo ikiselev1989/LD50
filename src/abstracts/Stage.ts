@@ -40,18 +40,6 @@ export default abstract class Stage extends Phaser.Scene {
 		this.countdown();
 	}
 
-	private makeUI() {
-		this.anims.createFromAseprite(ObjectsTex.Clock);
-
-		const ui = this.add.sprite(this.scale.width / 2, this.scale.height - 10, ObjectsTex.Clock).play({
-			key: 'Clock-Tic',
-			frameRate: 11 / (this.timeOut / 1000),
-		});
-
-		ui.setOrigin(0.5, 1);
-		ui.setScrollFactor(0);
-	}
-
 	private async countdown() {
 		this.anims.createFromAseprite(ObjectsTex.CountDown);
 
@@ -64,8 +52,6 @@ export default abstract class Stage extends Phaser.Scene {
 		await Utils.asyncAnimation(countdown, 'CountDown');
 
 		countdown.destroy();
-
-		this.makeUI();
 
 		this.player.activate();
 
@@ -116,6 +102,10 @@ export default abstract class Stage extends Phaser.Scene {
 					this.addCleaner(ob);
 					break;
 
+				case Interactives.Clock:
+					this.addClock(ob);
+					break;
+
 				default:
 					return;
 			}
@@ -130,6 +120,22 @@ export default abstract class Stage extends Phaser.Scene {
 			let cleaner = this.add.sprite(x, y, CharacterTex.Cleaner).play({ key: 'Cleaner-Clean', repeat: -1 });
 
 			cleaner.setOrigin(0.5, 1);
+		}
+	}
+
+	private addClock(ob: Phaser.Types.Tilemaps.TiledObject) {
+		const { x, y, width, height } = ob;
+		this.anims.createFromAseprite(CharacterTex.Cleaner);
+
+		if (typeof x !== 'undefined' && typeof y !== 'undefined' && typeof width !== 'undefined' && typeof height !== 'undefined') {
+			this.anims.createFromAseprite(ObjectsTex.Clock);
+
+			const ui = this.add.sprite(x + width / 2, y + height / 2, ObjectsTex.Clock).play({
+				key: 'Clock-Tic',
+				frameRate: 11 / (this.timeOut / 1000),
+			});
+
+			ui.setOrigin(0.5, 0.5);
 		}
 	}
 
