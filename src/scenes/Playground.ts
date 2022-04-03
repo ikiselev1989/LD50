@@ -1,33 +1,12 @@
-import SceneECS from '~/abstract/SceneECS';
-import { EntityConfig, SceneECSData } from '~/types';
-import { CharacterData } from '~/entities/Character';
-import Player from '~/entities/Player';
-import Render from '~/systems/Render';
-import Movement from '~/systems/Movement';
-import PlayerInput from '~/systems/PlayerInput';
-import CameraFollow from '~/systems/CameraFollow';
 import { SCENES } from '~/enums/Scenes';
-import { CHARACTER_TEXTURES } from '~/enums/CharacterTextures';
 import { MAP_LAYERS } from '~/enums/MapLayers';
 import { INTERACTIVES } from '~/enums/Interactives';
+import Stage from '~/abstracts/Stage';
 
-let player: EntityConfig<CharacterData> = {
-	func: Player,
-	data: {
+export default class Playground extends Stage {
+	playerPosition: { x: number; y: number } = {
 		x: 16,
 		y: 288,
-		z: 0,
-		pivotX: 0.5,
-		pivotY: 1,
-		texture: CHARACTER_TEXTURES.PLAYER,
-		speed: 1,
-	},
-};
-
-export default class Playground extends SceneECS {
-	sceneECSData: SceneECSData = {
-		entities: [player],
-		systems: [Movement, Render, PlayerInput, CameraFollow],
 	};
 
 	constructor() {
@@ -74,4 +53,9 @@ export default class Playground extends SceneECS {
 
 		cleaner.setOrigin(0.5, 1);
 	}
+
+	update(time: number, delta: number) {
+		super.update(time, delta);
+	}
+
 }

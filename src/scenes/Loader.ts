@@ -1,6 +1,6 @@
 import { SCENES } from '~/enums/Scenes';
 import { Scene } from 'phaser';
-import { CHARACTER_TEXTURES } from '~/enums/CharacterTextures';
+import { CharacterTex } from '~/enums/CharacterTextures';
 
 export default class Loader extends Scene {
 	constructor() {
@@ -8,9 +8,8 @@ export default class Loader extends Scene {
 	}
 
 	preload() {
-		this.load.image(CHARACTER_TEXTURES.PLAYER, `/animations/${CHARACTER_TEXTURES.PLAYER}.png`);
-
 		this.load.aseprite('cleaner', '/animations/cleaner/cleaner.png', '/animations/cleaner/cleaner.json');
+		this.load.aseprite(CharacterTex.Corrupt, `/animations/${CharacterTex.Corrupt}/${CharacterTex.Corrupt}.png`, `/animations/${CharacterTex.Corrupt}/${CharacterTex.Corrupt}.json`);
 
 		this.load.image('tiles', `tiles..png`);
 		this.load.image('bg', `bg.png`);

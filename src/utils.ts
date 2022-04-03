@@ -1,10 +1,10 @@
-import { CHARACTER_TEXTURES } from '~/enums/CharacterTextures';
+import { CharacterTex } from '~/enums/CharacterTextures';
 import * as Phaser from 'phaser';
 import { Scene } from 'phaser';
 
 export class Utils {
 	static getEnumStringValueIndex(data: object, value: string): number {
-		let values = Object.keys(data).map(tex => CHARACTER_TEXTURES[tex]);
+		let values = Object.keys(data).map(tex => CharacterTex[tex]);
 
 		return values.indexOf(value);
 	}

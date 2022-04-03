@@ -6,7 +6,7 @@ import SpriteComponent from '~/components/Sprite';
 import MovementComponent from '~/components/Movement';
 import { FLIP_STATE } from '~/enums/FlipState';
 import { DIRECTIONS } from '~/enums/Directions';
-import { CHARACTER_TEXTURES } from '~/enums/CharacterTextures';
+import { CharacterTex } from '~/enums/CharacterTextures';
 
 export type CharacterData = {
 	x: number;
@@ -14,7 +14,7 @@ export type CharacterData = {
 	z: number;
 	pivotX: number,
 	pivotY: number,
-	texture: CHARACTER_TEXTURES;
+	texture: CharacterTex;
 	speed: number;
 };
 
@@ -32,7 +32,7 @@ const Character: EntityCreateFunc<CharacterData> = (world, data) => {
 
 	SpriteComponent.pivotX[eid] = pivotX;
 	SpriteComponent.pivotY[eid] = pivotY;
-	SpriteComponent.texture[eid] = Utils.getEnumStringValueIndex(CHARACTER_TEXTURES, texture);
+	SpriteComponent.texture[eid] = Utils.getEnumStringValueIndex(CharacterTex, texture);
 	SpriteComponent.flipX[eid] = FLIP_STATE.NO_FLIP;
 
 	MovementComponent.speed[eid] = speed;
