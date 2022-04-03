@@ -4,8 +4,8 @@ import { CharacterStates } from '~/enums/CharacterStates';
 import { Utils } from '~/utils';
 import { Depth } from '~/enums/Depth';
 import { StairsDirection } from '~/enums/StairsDirection';
-import Sprite = Phaser.GameObjects.Sprite;
 import Phaser from 'phaser';
+import Sprite = Phaser.GameObjects.Sprite;
 
 export default class Player {
 	private sprite: Phaser.Physics.Arcade.Sprite & { body: Phaser.Physics.Arcade.Body };
@@ -30,7 +30,7 @@ export default class Player {
 		this.sprite.setOrigin(0.5, 1);
 		this.sprite.setBounce(1);
 
-		this.scene.physics.add.collider(this.sprite, this.scene.collidersLayer)
+		this.scene.physics.add.collider(this.sprite, this.scene.collidersLayer);
 		this.scene.collidersLayer.setCollision(113);
 
 		scene.cameras.main.startFollow(this.sprite, true, 1, 1, 0, 50);
@@ -41,7 +41,9 @@ export default class Player {
 	}
 
 	moveHandler() {
-		if (!this.canMove) return;
+		if (!this.canMove) {
+			return this.state = CharacterStates.Idle;
+		}
 
 		const { left, right } = this.scene.cursors;
 

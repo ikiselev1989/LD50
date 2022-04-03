@@ -14,7 +14,6 @@ export default class Loader extends Scene {
 		this.load.aseprite(ObjectsTex.Shredder, `/animations/${ObjectsTex.Shredder}.png`, `/animations/${ObjectsTex.Shredder}.json`);
 
 		this.load.image(ObjectsTex.Pappers, `/assets/${ObjectsTex.Pappers}.png`);
-		this.load.image(ObjectsTex.Table, `/assets/${ObjectsTex.Table}.png`);
 
 		this.load.image('tiles', `tiles.png`);
 
