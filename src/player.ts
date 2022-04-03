@@ -5,6 +5,7 @@ import { Utils } from '~/utils';
 import { Depth } from '~/enums/Depth';
 import { StairsDirection } from '~/enums/StairsDirection';
 import Sprite = Phaser.GameObjects.Sprite;
+import Phaser from 'phaser';
 
 export default class Player {
 	private sprite: Phaser.Physics.Arcade.Sprite & { body: Phaser.Physics.Arcade.Body };
@@ -15,7 +16,6 @@ export default class Player {
 	private speed = 100;
 	private canMove: boolean = false;
 	private canUseShredder: boolean = false;
-	private hid: boolean = false;
 
 	constructor(scene: Stage, position: { x: number, y: number }) {
 		this.scene = scene;
@@ -30,7 +30,8 @@ export default class Player {
 		this.sprite.setOrigin(0.5, 1);
 		this.sprite.setBounce(1);
 
-		scene.physics.add.collider(this.sprite, scene.colliders);
+		this.scene.physics.add.collider(this.sprite, this.scene.collidersLayer)
+		this.scene.collidersLayer.setCollision(113);
 
 		scene.cameras.main.startFollow(this.sprite, true, 1, 1, 0, 50);
 
@@ -39,7 +40,7 @@ export default class Player {
 		this.canMove = true;
 	}
 
-	moveHandler(delta: number) {
+	moveHandler() {
 		if (!this.canMove) return;
 
 		const { left, right } = this.scene.cursors;
@@ -84,8 +85,6 @@ export default class Player {
 	}
 
 	private useHandler() {
-		if (this.scene.physics.collide(this.sprite, this.scene.hides, (player, hide) => this.useHides(<Sprite>hide))) return;
-
 		this.scene.physics.collide(this.sprite, this.scene.pappers, (player, pappers) => this.grabPappers(<Sprite>pappers));
 
 		this.scene.physics.collide(this.sprite, this.scene.shredders, (player, shredder) => this.useShredder(<Sprite>shredder));
@@ -146,23 +145,5 @@ export default class Player {
 		}));
 
 		this.canMove = true;
-	}
-
-	private async useHides(sprite: Sprite) {
-		if (this.hid) {
-			this.hid = false;
-
-			await Utils.asyncAnimation(this.sprite, 'Corrupt-Hide', true);
-
-			this.sprite.setDepth(Depth.Player);
-			this.canMove = true;
-		} else {
-			this.sprite.setDepth(Depth.Base);
-			this.canMove = false;
-			this.hid = true;
-			this.sprite.setPosition(sprite.x, this.sprite.y);
-
-			await Utils.asyncAnimation(this.sprite, 'Corrupt-Hide');
-		}
 	}
 }

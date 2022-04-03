@@ -17,9 +17,8 @@ export default abstract class Stage extends Phaser.Scene {
 	pappers!: Phaser.Physics.Arcade.StaticGroup;
 	doors!: Phaser.Physics.Arcade.StaticGroup;
 	shredders!: Phaser.Physics.Arcade.StaticGroup;
-	hides!: Phaser.Physics.Arcade.StaticGroup;
-	colliders!: Phaser.Physics.Arcade.StaticGroup;
 	map!: Phaser.Tilemaps.Tilemap;
+	collidersLayer!: Phaser.Tilemaps.TilemapLayer;
 
 	preload() {
 		this.load.tilemapTiledJSON(this.stageMap, `${this.stageMap}.json`);
@@ -29,8 +28,6 @@ export default abstract class Stage extends Phaser.Scene {
 		this.pappers = this.physics.add.staticGroup({ key: Interactives.Pappers });
 		this.doors = this.physics.add.staticGroup({ key: 'Doors' });
 		this.shredders = this.physics.add.staticGroup({ key: Interactives.Shredder });
-		this.hides = this.physics.add.staticGroup({ key: Interactives.Hides });
-		this.colliders = this.physics.add.staticGroup({ key: MapLayers.Colliders });
 
 		this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -51,7 +48,8 @@ export default abstract class Stage extends Phaser.Scene {
 		this.map.createLayer(MapLayers.Back, tileset);
 		this.map.createLayer(MapLayers.SubMiddle, tileset);
 		this.map.createLayer(MapLayers.Middle, tileset);
-		this.map.createLayer(MapLayers.Colliders, tileset);
+
+		this.collidersLayer = this.map.createLayer(MapLayers.Colliders, tileset);
 
 		const objectsLayer = this.map.getObjectLayer(MapLayers.Objects);
 		objectsLayer.objects.forEach(ob => {
@@ -74,10 +72,6 @@ export default abstract class Stage extends Phaser.Scene {
 
 				case Interactives.Cleaner:
 					this.addCleaner(ob);
-					break;
-
-				case Interactives.Table:
-					this.addHides(ob, ObjectsTex.Table);
 					break;
 
 				default:
@@ -144,22 +138,8 @@ export default abstract class Stage extends Phaser.Scene {
 	}
 
 
-	private addHides(ob: Phaser.Types.Tilemaps.TiledObject, tex: ObjectsTex) {
-		const { x, y, width, height } = ob;
-
-		if (typeof x !== 'undefined' && typeof y !== 'undefined' && typeof width !== 'undefined' && typeof height !== 'undefined') {
-			let table = this.add.sprite(x + width / 2, y + height, tex);
-
-			table.setDepth(Depth.Objects);
-			table.setSize(width, height);
-			table.setOrigin(0.5, 1);
-
-			this.hides.add(table);
-		}
-	}
-
 	update(time: number, delta: number) {
-		this.player.moveHandler(delta);
+		this.player.moveHandler();
 		this.player.playerAnimsHandler();
 	}
 }
