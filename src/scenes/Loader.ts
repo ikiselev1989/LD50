@@ -1,6 +1,8 @@
 import { SCENES } from '~/enums/Scenes';
 import { Scene } from 'phaser';
 import { CharacterTex } from '~/enums/CharacterTextures';
+import { ObjectsTex } from '~/enums/ObjectsTex';
+import { Assets } from '~/enums/Assets';
 
 export default class Loader extends Scene {
 	constructor() {
@@ -8,8 +10,11 @@ export default class Loader extends Scene {
 	}
 
 	preload() {
-		this.load.aseprite('cleaner', '/animations/cleaner/cleaner.png', '/animations/cleaner/cleaner.json');
-		this.load.aseprite(CharacterTex.Corrupt, `/animations/${CharacterTex.Corrupt}/${CharacterTex.Corrupt}.png`, `/animations/${CharacterTex.Corrupt}/${CharacterTex.Corrupt}.json`);
+		this.load.aseprite(CharacterTex.Cleaner, `/animations/${CharacterTex.Cleaner}.png`, `/animations/${CharacterTex.Cleaner}.json`);
+		this.load.aseprite(CharacterTex.Corrupt, `/animations/${CharacterTex.Corrupt}.png`, `/animations/${CharacterTex.Corrupt}.json`);
+		this.load.aseprite(ObjectsTex.Shredder, `/animations/${ObjectsTex.Shredder}.png`, `/animations/${ObjectsTex.Shredder}.json`);
+
+		this.load.image(Assets.Pappers, `/assets/${Assets.Pappers}.png`);
 
 		this.load.image('tiles', `tiles..png`);
 		this.load.image('bg', `bg.png`);

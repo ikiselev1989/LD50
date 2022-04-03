@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import { Utils } from '~/utils';
-import { ASSETS } from '~/enums/Assets';
+import { Assets } from '~/enums/Assets';
 import { SCENES } from '~/enums/Scenes';
 
 export default class Intro extends Scene {
@@ -8,8 +8,8 @@ export default class Intro extends Scene {
 	private phaserLogo!: Phaser.GameObjects.Image;
 
 	preload() {
-		this.load.image(ASSETS.GONZO_LOGO, `/assets/${ASSETS.GONZO_LOGO}.png`);
-		this.load.image(ASSETS.PHASER_LOGO, `/assets/${ASSETS.PHASER_LOGO}.png`);
+		this.load.image(Assets.Gonzologo, `/assets/${Assets.Gonzologo}.png`);
+		this.load.image(Assets.Phaserlogo, `/assets/${Assets.Phaserlogo}.png`);
 	}
 
 	create() {
@@ -17,10 +17,10 @@ export default class Intro extends Scene {
 
 		this.cameras.main.setBackgroundColor('#422531');
 
-		this.gonzoLogo = this.add.image(<number>width / 2, <number>height / 2, ASSETS.GONZO_LOGO);
+		this.gonzoLogo = this.add.image(<number>width / 2, <number>height / 2, Assets.Gonzologo);
 		this.gonzoLogo.alpha = 0;
 
-		this.phaserLogo = this.add.image(<number>width / 2, <number>height / 2, ASSETS.PHASER_LOGO);
+		this.phaserLogo = this.add.image(<number>width / 2, <number>height / 2, Assets.Phaserlogo);
 		this.phaserLogo.alpha = 0;
 
 		this.logoAnimation();

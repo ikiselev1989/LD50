@@ -1,4 +1,5 @@
-export enum ASSETS {
-	GONZO_LOGO = 'gonzo-13-logo',
-	PHASER_LOGO = 'phaser-logo',
+export enum Assets {
+	Gonzologo = 'gonzo-13-logo',
+	Phaserlogo = 'phaser-logo',
+	Pappers = 'pappers'
 }
