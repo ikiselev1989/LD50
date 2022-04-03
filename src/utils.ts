@@ -23,11 +23,11 @@ export class Utils {
 		});
 	}
 
-	static asyncAnimation(sprite: Sprite, animationKey: string) {
+	static asyncAnimation(sprite: Sprite, animationKey: string, reverse: boolean = false) {
 		return new Promise(resolve => {
 			sprite.once('animationcomplete', resolve);
 
-			sprite.play({ key: animationKey });
+			reverse ? sprite.playReverse({ key: animationKey }) : sprite.play({ key: animationKey });
 		});
 	}
 }

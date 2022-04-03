@@ -3,8 +3,8 @@ import { CharacterTex } from '~/enums/CharacterTextures';
 import { MAP_LAYERS } from '~/enums/MapLayers';
 import { Interactives } from '~/enums/Interactives';
 import { ObjectsTex } from '~/enums/ObjectsTex';
-import { Assets } from '~/enums/Assets';
 import Player from '~/player';
+import { Depth } from '~/enums/Depth';
 
 export default abstract class Stage extends Phaser.Scene {
 	abstract playerPosition: { x: number, y: number };
@@ -16,11 +16,13 @@ export default abstract class Stage extends Phaser.Scene {
 	pappers!: Phaser.Physics.Arcade.Group;
 	doors!: Phaser.Physics.Arcade.Group;
 	shredders!: Phaser.Physics.Arcade.Group;
+	hides!: Phaser.Physics.Arcade.Group;
 
 	protected create() {
-		this.pappers = this.physics.add.group({ key: ObjectsTex.Pappers });
-		this.doors = this.physics.add.group({ key: ObjectsTex.Door });
-		this.shredders = this.physics.add.group({ key: ObjectsTex.Shredder });
+		this.pappers = this.physics.add.group({ key: Interactives.Pappers });
+		this.doors = this.physics.add.group({ key: Interactives.Door });
+		this.shredders = this.physics.add.group({ key: Interactives.Shredder });
+		this.hides = this.physics.add.group({ key: Interactives.Hides });
 
 		this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -64,6 +66,10 @@ export default abstract class Stage extends Phaser.Scene {
 					this.addCleaner(ob);
 					break;
 
+				case Interactives.Table:
+					this.addHides(ob, ObjectsTex.Table);
+					break;
+
 				default:
 					return;
 			}
@@ -87,6 +93,7 @@ export default abstract class Stage extends Phaser.Scene {
 		if (x && y && width && height) {
 			let pappers = this.add.sprite(x + width / 2, y + height, ObjectsTex.Pappers);
 
+			pappers.setDepth(Depth.Objects);
 			pappers.setOrigin(0.5, 1);
 
 			this.pappers.add(pappers);
@@ -103,6 +110,7 @@ export default abstract class Stage extends Phaser.Scene {
 				repeat: -1,
 			});
 
+			shredder.setDepth(Depth.Objects);
 			shredder.setOrigin(0.5, 1);
 
 			this.shredders.add(shredder);
@@ -120,6 +128,21 @@ export default abstract class Stage extends Phaser.Scene {
 			door.setOrigin(0.5, 0.5);
 
 			this.doors.add(door);
+		}
+	}
+
+
+	private addHides(ob: Phaser.Types.Tilemaps.TiledObject, tex: ObjectsTex) {
+		const { x, y, width, height } = ob;
+
+		if (x && y && width && height) {
+			let table = this.add.sprite(x + width / 2, y + height, tex);
+
+			table.setDepth(Depth.Objects);
+			table.setSize(width, height);
+			table.setOrigin(0.5, 1);
+
+			this.hides.add(table);
 		}
 	}
 

@@ -2,5 +2,7 @@ export enum Interactives {
 	Door = 'Door',
 	Shredder = 'Shredder',
 	Pappers = 'Pappers',
-	Cleaner = 'Cleaner'
+	Cleaner = 'Cleaner',
+	Table = 'Table',
+	Hides = 'Hides'
 }

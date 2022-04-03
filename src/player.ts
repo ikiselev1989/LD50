@@ -3,6 +3,7 @@ import Stage from '~/abstracts/Stage';
 import { CharacterStates } from '~/enums/CharacterStates';
 import { ObjectsTex } from '~/enums/ObjectsTex';
 import { Utils } from '~/utils';
+import { Depth } from '~/enums/Depth';
 import Sprite = Phaser.GameObjects.Sprite;
 
 export default class Player {
@@ -14,6 +15,7 @@ export default class Player {
 	private speed = 85;
 	private canMove: boolean = false;
 	private canUseShredder: boolean = false;
+	private hid: boolean = false;
 
 
 	constructor(scene: Stage, position: { x: number, y: number }) {
@@ -25,6 +27,7 @@ export default class Player {
 			repeat: -1,
 		});
 
+		this.sprite.setDepth(Depth.Player);
 		this.sprite.setOrigin(0.5, 1);
 
 		scene.physics.add.collider(this.sprite, scene.pappers, (player, collider) => {
@@ -39,6 +42,10 @@ export default class Player {
 			this.collisionHandler(player, collider, ObjectsTex.Door);
 		});
 
+		scene.physics.add.collider(this.sprite, scene.hides, (player, collider) => {
+			// this.collisionHandler(player, collider, ObjectsTex.Door);
+		});
+
 		scene.cameras.main.startFollow(this.sprite);
 
 		scene.input.keyboard.on('keydown-SPACE', this.useHandler.bind(this));
@@ -50,8 +57,10 @@ export default class Player {
 		switch (type) {
 			case ObjectsTex.Door:
 				break;
+
 			case ObjectsTex.Pappers:
 				break;
+
 			case ObjectsTex.Shredder:
 				break;
 
@@ -104,8 +113,12 @@ export default class Player {
 	}
 
 	private useHandler() {
+		if (this.scene.physics.collide(this.sprite, this.scene.hides, (player, hide) => this.useHides(<Sprite>hide))) return;
+
 		this.scene.physics.collide(this.sprite, this.scene.pappers, (player, pappers) => this.grabPappers(<Sprite>pappers));
+
 		this.scene.physics.collide(this.sprite, this.scene.shredders, (player, shredder) => this.useShredder(<Sprite>shredder));
+
 		this.scene.physics.collide(this.sprite, this.scene.doors, (player, door) => this.useDoor(<Sprite>door));
 	}
 
@@ -135,12 +148,30 @@ export default class Player {
 
 	private useDoor(sprite: Sprite) {
 		this.canMove = false;
-		this.sprite.setPosition(sprite.x, sprite.y);
+		this.sprite.setPosition(sprite.x, this.sprite.y);
 
 		this.scene.tweens.add({
 			targets: this.sprite,
 			alpha: 0,
 			duration: 250,
 		});
+	}
+
+	private async useHides(sprite: Sprite) {
+		if (this.hid) {
+			this.hid = false;
+
+			await Utils.asyncAnimation(this.sprite, 'Corrupt-Hide', true);
+
+			this.sprite.setDepth(Depth.Player);
+			this.canMove = true;
+		} else {
+			this.sprite.setDepth(Depth.Base);
+			this.canMove = false;
+			this.hid = true;
+			this.sprite.setPosition(sprite.x, this.sprite.y);
+
+			await Utils.asyncAnimation(this.sprite, 'Corrupt-Hide');
+		}
 	}
 }

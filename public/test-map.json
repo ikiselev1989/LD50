@@ -132,6 +132,17 @@
                  "width":9,
                  "x":216,
                  "y":246
+                }, 
+                {
+                 "height":26,
+                 "id":11,
+                 "name":"Table",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":61,
+                 "x":240,
+                 "y":262
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -140,7 +151,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":11,
+ "nextobjectid":12,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.8.2",
