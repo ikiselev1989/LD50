@@ -2,6 +2,7 @@ import { CharacterTex } from '~/enums/CharacterTextures';
 import Stage from '~/abstracts/Stage';
 import { CharacterStates } from '~/enums/CharacterStates';
 import { ObjectsTex } from '~/enums/ObjectsTex';
+import { Utils } from '~/utils';
 import Sprite = Phaser.GameObjects.Sprite;
 
 export default class Player {
@@ -121,14 +122,15 @@ export default class Player {
 		});
 	}
 
-	private useShredder(sprite: Sprite) {
+	private async useShredder(sprite: Sprite) {
 		if (!this.canUseShredder) return;
 
 		this.canUseShredder = false;
 		this.scene.shredders.remove(sprite);
 
-		sprite.once('animationcomplete', () => sprite.play({ key: 'Shredder-Full', repeat: -1 }));
-		sprite.play({ key: 'Shredder-Work' });
+		await Utils.asyncAnimation(sprite, 'Shredder-Work');
+
+		sprite.play({ key: 'Shredder-Full', repeat: -1 });
 	}
 
 	private useDoor(sprite: Sprite) {
