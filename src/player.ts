@@ -4,6 +4,7 @@ import { CharacterStates } from '~/enums/CharacterStates';
 import { ObjectsTex } from '~/enums/ObjectsTex';
 import { Utils } from '~/utils';
 import { Depth } from '~/enums/Depth';
+import { StairsDirection } from '~/enums/StairsDirection';
 import Sprite = Phaser.GameObjects.Sprite;
 
 export default class Player {
@@ -16,7 +17,7 @@ export default class Player {
 	private canMove: boolean = false;
 	private canUseShredder: boolean = false;
 	private hid: boolean = false;
-
+	private stairsDirection: StairsDirection = StairsDirection.Up;
 
 	constructor(scene: Stage, position: { x: number, y: number }) {
 		this.scene = scene;
@@ -50,6 +51,9 @@ export default class Player {
 
 		scene.input.keyboard.on('keydown-SPACE', this.useHandler.bind(this));
 
+		scene.input.keyboard.on('keydown-UP', this.stairsDirectionHandler.bind(this));
+		scene.input.keyboard.on('keydown-DOWN', this.stairsDirectionHandler.bind(this));
+
 		this.canMove = true;
 	}
 
@@ -67,6 +71,10 @@ export default class Player {
 			default:
 				return;
 		}
+	}
+
+	private stairsDirectionHandler(e) {
+		this.scene.physics.collide(this.sprite, this.scene.doors, () => this.stairsDirection = e.key === 'ArrowUp' ? StairsDirection.Up : StairsDirection.Bottom);
 	}
 
 	moveHandler(delta: number) {
@@ -146,15 +154,31 @@ export default class Player {
 		sprite.play({ key: 'Shredder-Full', repeat: -1 });
 	}
 
-	private useDoor(sprite: Sprite) {
+	private async useDoor(sprite: Sprite) {
 		this.canMove = false;
 		this.sprite.setPosition(sprite.x, this.sprite.y);
 
-		this.scene.tweens.add({
+		await Utils.asyncTween(this.scene.tweens.create({
 			targets: this.sprite,
 			alpha: 0,
 			duration: 250,
-		});
+		}));
+
+		const yOffset = this.stairsDirection === StairsDirection.Up ? -96 : 96;
+
+		await Utils.asyncTween(this.scene.tweens.create({
+			targets: this.sprite,
+			y: this.sprite.y + yOffset,
+			duration: 750,
+		}));
+
+		await Utils.asyncTween(this.scene.tweens.create({
+			targets: this.sprite,
+			alpha: 1,
+			duration: 250,
+		}));
+
+		this.canMove = true;
 	}
 
 	private async useHides(sprite: Sprite) {
