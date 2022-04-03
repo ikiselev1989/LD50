@@ -47,7 +47,7 @@ export default class Player {
 			// this.collisionHandler(player, collider, ObjectsTex.Door);
 		});
 
-		scene.cameras.main.startFollow(this.sprite);
+		scene.cameras.main.startFollow(this.sprite, true, 1, 1, 0, 50);
 
 		scene.input.keyboard.on('keydown-SPACE', this.useHandler.bind(this));
 
