@@ -1,3 +1,5 @@
 export enum ObjectsTex {
-	Shredder = 'shredder'
+	Shredder = 'shredder',
+	Door = 'door',
+	Pappers = 'pappers',
 }

@@ -1,37 +1,36 @@
 import * as Phaser from 'phaser';
-import { CharacterStates } from '~/enums/CharacterStates';
 import { CharacterTex } from '~/enums/CharacterTextures';
 import { MAP_LAYERS } from '~/enums/MapLayers';
 import { Interactives } from '~/enums/Interactives';
 import { ObjectsTex } from '~/enums/ObjectsTex';
 import { Assets } from '~/enums/Assets';
+import Player from '~/player';
 
 export default abstract class Stage extends Phaser.Scene {
 	abstract playerPosition: { x: number, y: number };
 	abstract stageMap: string;
 
-	protected playerSpeed = 85;
-	protected cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-	protected player!: Phaser.GameObjects.Sprite;
-	protected playerState: CharacterStates = CharacterStates.Idle;
+	protected player!: Player;
 
-	private prevPlayerState: CharacterStates = CharacterStates.Idle;
+	cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+	pappers!: Phaser.Physics.Arcade.Group;
+	doors!: Phaser.Physics.Arcade.Group;
+	shredders!: Phaser.Physics.Arcade.Group;
 
 	protected create() {
+		this.pappers = this.physics.add.group({ key: ObjectsTex.Pappers });
+		this.doors = this.physics.add.group({ key: ObjectsTex.Door });
+		this.shredders = this.physics.add.group({ key: ObjectsTex.Shredder });
+
 		this.cursors = this.input.keyboard.createCursorKeys();
 
 		this.createMap();
 
-		this.anims.createFromAseprite(CharacterTex.Corrupt);
+		this.createPlayer();
+	}
 
-		this.player = this.add.sprite(this.playerPosition.x, this.playerPosition.y, CharacterTex.Corrupt).play({
-			key: 'Corrupt-Idle',
-			repeat: -1,
-		});
-
-		this.player.setOrigin(0.5, 1);
-
-		this.cameras.main.startFollow(this.player);
+	private createPlayer() {
+		this.player = new Player(this, this.playerPosition);
 	}
 
 	private createMap() {
@@ -46,9 +45,11 @@ export default abstract class Stage extends Phaser.Scene {
 		map.createLayer(MAP_LAYERS.OBJECTS, tileset);
 
 		const objectsLayer = map.getObjectLayer(MAP_LAYERS.INTERACTIVES);
+
 		objectsLayer.objects.forEach(ob => {
 			switch (ob.name) {
 				case Interactives.Door:
+					this.addDoor(ob);
 					break;
 
 				case Interactives.Pappers:
@@ -84,9 +85,11 @@ export default abstract class Stage extends Phaser.Scene {
 		const { x, y, width, height } = ob;
 
 		if (x && y && width && height) {
-			let pappers = this.add.sprite(x + width / 2, y + height, Assets.Pappers);
+			let pappers = this.add.sprite(x + width / 2, y + height, ObjectsTex.Pappers);
 
 			pappers.setOrigin(0.5, 1);
+
+			this.pappers.add(pappers);
 		}
 	}
 
@@ -101,52 +104,27 @@ export default abstract class Stage extends Phaser.Scene {
 			});
 
 			shredder.setOrigin(0.5, 1);
+
+			this.shredders.add(shredder);
+		}
+	}
+
+	private addDoor(ob: Phaser.Types.Tilemaps.TiledObject) {
+		const { x, y, width, height } = ob;
+
+		if (x && y && width && height) {
+			// @ts-ignore
+			let door = this.add.sprite(x + width / 2, y + height);
+
+			door.setSize(width, height);
+			door.setOrigin(0.5, 0.5);
+
+			this.doors.add(door);
 		}
 	}
 
 	update(time: number, delta: number) {
-		this.moveHandler(delta);
-		this.playerAnimsHandler();
-	}
-
-	private moveHandler(delta: number) {
-		const { left, right } = this.cursors;
-
-		if ((!left.isDown && !right.isDown) || (left.isDown && right.isDown)) {
-			this.playerState = CharacterStates.Idle;
-
-			return;
-		}
-
-		if (left.isDown) {
-			this.player.x -= Math.ceil(this.playerSpeed * delta / 1000);
-			this.player.flipX = true;
-		}
-
-		if (right.isDown) {
-			this.player.x += Math.ceil(this.playerSpeed * delta / 1000);
-			this.player.flipX = false;
-		}
-
-		this.playerState = CharacterStates.Walk;
-	}
-
-	private playerAnimsHandler() {
-		if (this.prevPlayerState !== this.playerState) {
-			this.prevPlayerState = this.playerState;
-
-			switch (this.playerState) {
-				case CharacterStates.Idle:
-					this.player.play({ key: 'Corrupt-Idle', repeat: -1 });
-					break;
-
-				case CharacterStates.Walk:
-					this.player.play({ key: 'Corrupt-Walk', repeat: -1 });
-					break;
-
-				default:
-					break;
-			}
-		}
+		this.player.moveHandler(delta);
+		this.player.playerAnimsHandler();
 	}
 }
