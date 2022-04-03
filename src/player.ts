@@ -5,6 +5,7 @@ import { Utils } from '~/utils';
 import { Depth } from '~/enums/Depth';
 import { StairsDirection } from '~/enums/StairsDirection';
 import Phaser from 'phaser';
+import { ObjectsTex } from '~/enums/ObjectsTex';
 import Sprite = Phaser.GameObjects.Sprite;
 
 export default class Player {
@@ -103,6 +104,8 @@ export default class Player {
 		this.scene.pappers.remove(sprite);
 		sprite.data.get('cursor').destroy();
 
+		this.scene.sound.play(ObjectsTex.Pappers);
+
 		this.scene.tweens.add({
 			targets: sprite,
 			alpha: 0,
@@ -115,6 +118,8 @@ export default class Player {
 
 		this.canUseShredder = false;
 		this.scene.shredders.remove(sprite);
+
+		this.scene.sound.play(ObjectsTex.Shredder);
 
 		await Utils.asyncAnimation(sprite, 'Shredder-Work');
 

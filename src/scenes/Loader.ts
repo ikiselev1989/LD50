@@ -9,6 +9,9 @@ export default class Loader extends Scene {
 	}
 
 	preload() {
+		this.load.audio(ObjectsTex.Pappers, `/assets/${ObjectsTex.Pappers}.mp3`);
+		this.load.audio(ObjectsTex.Shredder, `/assets/${ObjectsTex.Shredder}.mp3`);
+
 		this.load.aseprite(CharacterTex.Cleaner, `/animations/${CharacterTex.Cleaner}.png`, `/animations/${CharacterTex.Cleaner}.json`);
 		this.load.aseprite(CharacterTex.Corrupt, `/animations/${CharacterTex.Corrupt}.png`, `/animations/${CharacterTex.Corrupt}.json`);
 		this.load.aseprite(ObjectsTex.Shredder, `/animations/${ObjectsTex.Shredder}.png`, `/animations/${ObjectsTex.Shredder}.json`);
