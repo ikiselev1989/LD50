@@ -3,7 +3,7 @@ import 'regenerator-runtime/runtime';
 import '~/styles/main.scss';
 
 import 'phaser';
-import Playground from '~/scenes/Playground';
+import Stage1 from '~/scenes/Stage1';
 import Loader from '~/scenes/Loader';
 import * as Phaser from 'phaser';
 
@@ -12,7 +12,7 @@ const config = {
 	backgroundColor: '#422531',
 	width: 640 * 0.75,
 	height: 360 * 0.75,
-	scene: [Loader, Playground],
+	scene: [Loader, Stage1],
 	pixelArt: true,
 	scale: {
 		mode: Phaser.Scale.ScaleModes.FIT,

@@ -6,10 +6,12 @@ import { ObjectsTex } from '~/enums/ObjectsTex';
 import Player from '~/player';
 import { Depth } from '~/enums/Depth';
 import { StairsDirection } from '~/enums/StairsDirection';
+import { Utils } from '~/utils';
 
 export default abstract class Stage extends Phaser.Scene {
 	abstract playerPosition: { x: number, y: number };
 	abstract stageMap: string;
+	abstract timeOut: number;
 
 	protected player!: Player;
 
@@ -34,6 +36,46 @@ export default abstract class Stage extends Phaser.Scene {
 		this.createMap();
 
 		this.createPlayer();
+
+		this.countdown();
+	}
+
+	private makeUI() {
+		this.anims.createFromAseprite(ObjectsTex.Clock);
+
+		const ui = this.add.sprite(this.scale.width / 2, this.scale.height - 10, ObjectsTex.Clock).play({
+			key: 'Clock-Tic',
+			frameRate: 11 / (this.timeOut / 1000),
+		});
+
+		ui.setOrigin(0.5, 1);
+		ui.setScrollFactor(0);
+	}
+
+	private async countdown() {
+		this.anims.createFromAseprite(ObjectsTex.CountDown);
+
+		const countdown = this.add.sprite(this.scale.width / 2, this.scale.height / 2, ObjectsTex.CountDown);
+
+		countdown.setOrigin(0.5);
+		countdown.setScrollFactor(0);
+		countdown.setDepth(50);
+
+		await Utils.asyncAnimation(countdown, 'CountDown');
+
+		countdown.destroy();
+
+		this.makeUI();
+
+		this.player.activate();
+
+		await Utils.asyncWait(this.timeOut, this);
+
+		this.gameOver();
+	}
+
+	private gameOver() {
+		this.scene.start(this);
 	}
 
 	private createPlayer() {
@@ -93,6 +135,7 @@ export default abstract class Stage extends Phaser.Scene {
 
 	private addPappers(ob: Phaser.Types.Tilemaps.TiledObject) {
 		const { x, y, width, height } = ob;
+		this.anims.createFromAseprite(ObjectsTex.Cursor);
 
 		if (typeof x !== 'undefined' && typeof y !== 'undefined' && typeof width !== 'undefined' && typeof height !== 'undefined') {
 			let pappers = this.add.sprite(x + width / 2, y + height, ObjectsTex.Pappers);
@@ -101,6 +144,17 @@ export default abstract class Stage extends Phaser.Scene {
 			pappers.setOrigin(0.5, 1);
 
 			this.pappers.add(pappers);
+
+			const cursor = this.add.sprite(pappers.x - 1, pappers.y - 10, ObjectsTex.Cursor);
+
+			cursor.setDepth(Depth.Objects);
+			cursor.setOrigin(0.5, 1);
+
+			cursor.play({ key: 'Cursor-Move', repeat: -1 });
+
+			pappers.setDataEnabled();
+
+			pappers.data.set('cursor', cursor);
 		}
 	}
 

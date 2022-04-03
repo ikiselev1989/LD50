@@ -1,6 +1,7 @@
 export enum ObjectsTex {
 	Shredder = 'shredder',
-	Door = 'door',
 	Pappers = 'pappers',
-	Table = 'table',
+	Cursor = 'cursor',
+	Clock = 'clock',
+	CountDown = 'countdown'
 }

@@ -36,7 +36,9 @@ export default class Player {
 		scene.cameras.main.startFollow(this.sprite, true, 1, 1, 0, 50);
 
 		scene.input.keyboard.on('keydown-SPACE', this.useHandler.bind(this));
+	}
 
+	activate() {
 		this.canMove = true;
 	}
 
@@ -99,6 +101,7 @@ export default class Player {
 
 		this.canUseShredder = true;
 		this.scene.pappers.remove(sprite);
+		sprite.data.get('cursor').destroy();
 
 		this.scene.tweens.add({
 			targets: sprite,
