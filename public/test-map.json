@@ -121,6 +121,17 @@
                  "width":9,
                  "x":279,
                  "y":254
+                }, 
+                {
+                 "height":8,
+                 "id":10,
+                 "name":"Pappers",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":9,
+                 "x":216,
+                 "y":246
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -129,7 +140,7 @@
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":10,
+ "nextobjectid":11,
  "orientation":"orthogonal",
  "renderorder":"left-down",
  "tiledversion":"1.8.2",

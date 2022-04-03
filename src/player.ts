@@ -127,6 +127,7 @@ export default class Player {
 		this.canUseShredder = false;
 		this.scene.shredders.remove(sprite);
 
+		sprite.once('animationcomplete', () => sprite.play({ key: 'Shredder-Full', repeat: -1 }));
 		sprite.play({ key: 'Shredder-Work' });
 	}
 
