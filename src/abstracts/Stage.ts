@@ -8,6 +8,7 @@ import { Depth } from '~/enums/Depth';
 import { StairsDirection } from '~/enums/StairsDirection';
 import { Utils } from '~/utils';
 import { SCENES } from '~/enums/Scenes';
+import { Assets } from '~/enums/Assets';
 
 export default abstract class Stage extends Phaser.Scene {
 	abstract playerPosition: { x: number, y: number };
@@ -63,6 +64,8 @@ export default abstract class Stage extends Phaser.Scene {
 	}
 
 	private gameOver() {
+		this.sound.play(Assets.Over);
+
 		this.scene.start(this);
 	}
 

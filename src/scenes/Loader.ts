@@ -2,6 +2,7 @@ import { SCENES } from '~/enums/Scenes';
 import { Scene } from 'phaser';
 import { CharacterTex } from '~/enums/CharacterTextures';
 import { ObjectsTex } from '~/enums/ObjectsTex';
+import { Assets } from '~/enums/Assets';
 
 export default class Loader extends Scene {
 	constructor() {
@@ -11,6 +12,7 @@ export default class Loader extends Scene {
 	preload() {
 		this.load.audio(ObjectsTex.Pappers, `/assets/${ObjectsTex.Pappers}.mp3`);
 		this.load.audio(ObjectsTex.Shredder, `/assets/${ObjectsTex.Shredder}.mp3`);
+		this.load.audio(Assets.Over, `/assets/${Assets.Over}.mp3`);
 
 		this.load.aseprite(CharacterTex.Cleaner, `/animations/${CharacterTex.Cleaner}.png`, `/animations/${CharacterTex.Cleaner}.json`);
 		this.load.aseprite(CharacterTex.Corrupt, `/animations/${CharacterTex.Corrupt}.png`, `/animations/${CharacterTex.Corrupt}.json`);
