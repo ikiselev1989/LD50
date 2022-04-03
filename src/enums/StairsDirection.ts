@@ -1,4 +1,4 @@
 export enum StairsDirection {
 	Up,
-	Bottom
+	Down
 }

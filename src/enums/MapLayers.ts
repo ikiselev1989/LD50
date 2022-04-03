@@ -1,8 +1,7 @@
-export enum MAP_LAYERS {
-	WALLS = 'walls',
-	ELEVATORS = 'elevators',
-	DOORS = 'doors',
-	FURNITURES = 'furnitures',
-	OBJECTS = 'objects',
-	INTERACTIVES = 'interactives'
+export enum MapLayers {
+	Objects = 'objects',
+	Colliders = 'colliders',
+	Middle = 'middle',
+	SubMiddle = 'sub-middle',
+	Back = 'back'
 }

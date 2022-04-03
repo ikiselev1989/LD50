@@ -1,10 +1,11 @@
 import * as Phaser from 'phaser';
 import { CharacterTex } from '~/enums/CharacterTextures';
-import { MAP_LAYERS } from '~/enums/MapLayers';
+import { MapLayers } from '~/enums/MapLayers';
 import { Interactives } from '~/enums/Interactives';
 import { ObjectsTex } from '~/enums/ObjectsTex';
 import Player from '~/player';
 import { Depth } from '~/enums/Depth';
+import { StairsDirection } from '~/enums/StairsDirection';
 
 export default abstract class Stage extends Phaser.Scene {
 	abstract playerPosition: { x: number, y: number };
@@ -13,16 +14,23 @@ export default abstract class Stage extends Phaser.Scene {
 	protected player!: Player;
 
 	cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-	pappers!: Phaser.Physics.Arcade.Group;
-	doors!: Phaser.Physics.Arcade.Group;
-	shredders!: Phaser.Physics.Arcade.Group;
-	hides!: Phaser.Physics.Arcade.Group;
+	pappers!: Phaser.Physics.Arcade.StaticGroup;
+	doors!: Phaser.Physics.Arcade.StaticGroup;
+	shredders!: Phaser.Physics.Arcade.StaticGroup;
+	hides!: Phaser.Physics.Arcade.StaticGroup;
+	colliders!: Phaser.Physics.Arcade.StaticGroup;
+	map!: Phaser.Tilemaps.Tilemap;
+
+	preload() {
+		this.load.tilemapTiledJSON(this.stageMap, `${this.stageMap}.json`);
+	}
 
 	protected create() {
-		this.pappers = this.physics.add.group({ key: Interactives.Pappers });
-		this.doors = this.physics.add.group({ key: Interactives.Door });
-		this.shredders = this.physics.add.group({ key: Interactives.Shredder });
-		this.hides = this.physics.add.group({ key: Interactives.Hides });
+		this.pappers = this.physics.add.staticGroup({ key: Interactives.Pappers });
+		this.doors = this.physics.add.staticGroup({ key: 'Doors' });
+		this.shredders = this.physics.add.staticGroup({ key: Interactives.Shredder });
+		this.hides = this.physics.add.staticGroup({ key: Interactives.Hides });
+		this.colliders = this.physics.add.staticGroup({ key: MapLayers.Colliders });
 
 		this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -36,22 +44,24 @@ export default abstract class Stage extends Phaser.Scene {
 	}
 
 	private createMap() {
-		const map = this.make.tilemap({ key: this.stageMap, tileHeight: 16, tileWidth: 16 });
+		this.map = this.make.tilemap({ key: this.stageMap });
 
-		const tileset = map.addTilesetImage('tiles', 'tiles');
+		const tileset = this.map.addTilesetImage('tiles', 'tiles');
 
-		map.createLayer(MAP_LAYERS.WALLS, tileset);
-		map.createLayer(MAP_LAYERS.ELEVATORS, tileset);
-		map.createLayer(MAP_LAYERS.DOORS, tileset);
-		map.createLayer(MAP_LAYERS.FURNITURES, tileset);
-		map.createLayer(MAP_LAYERS.OBJECTS, tileset);
+		this.map.createLayer(MapLayers.Back, tileset);
+		this.map.createLayer(MapLayers.SubMiddle, tileset);
+		this.map.createLayer(MapLayers.Middle, tileset);
+		this.map.createLayer(MapLayers.Colliders, tileset);
 
-		const objectsLayer = map.getObjectLayer(MAP_LAYERS.INTERACTIVES);
-
+		const objectsLayer = this.map.getObjectLayer(MapLayers.Objects);
 		objectsLayer.objects.forEach(ob => {
 			switch (ob.name) {
-				case Interactives.Door:
-					this.addDoor(ob);
+				case Interactives.DoorUp:
+					this.addDoor(ob, StairsDirection.Up);
+					break;
+
+				case Interactives.DoorDown:
+					this.addDoor(ob, StairsDirection.Down);
 					break;
 
 				case Interactives.Pappers:
@@ -80,7 +90,7 @@ export default abstract class Stage extends Phaser.Scene {
 		const { x, y } = ob;
 		this.anims.createFromAseprite(CharacterTex.Cleaner);
 
-		if (x && y) {
+		if (typeof x !== 'undefined' && typeof y !== 'undefined') {
 			let cleaner = this.add.sprite(x, y, CharacterTex.Cleaner).play({ key: 'Cleaner-Clean', repeat: -1 });
 
 			cleaner.setOrigin(0.5, 1);
@@ -90,7 +100,7 @@ export default abstract class Stage extends Phaser.Scene {
 	private addPappers(ob: Phaser.Types.Tilemaps.TiledObject) {
 		const { x, y, width, height } = ob;
 
-		if (x && y && width && height) {
+		if (typeof x !== 'undefined' && typeof y !== 'undefined' && typeof width !== 'undefined' && typeof height !== 'undefined') {
 			let pappers = this.add.sprite(x + width / 2, y + height, ObjectsTex.Pappers);
 
 			pappers.setDepth(Depth.Objects);
@@ -104,7 +114,7 @@ export default abstract class Stage extends Phaser.Scene {
 		const { x, y, width, height } = ob;
 		this.anims.createFromAseprite(ObjectsTex.Shredder);
 
-		if (x && y && width && height) {
+		if (typeof x !== 'undefined' && typeof y !== 'undefined' && typeof width !== 'undefined' && typeof height !== 'undefined') {
 			let shredder = this.add.sprite(x + width / 2, y + height, ObjectsTex.Shredder).play({
 				key: 'Shredder-Idle',
 				repeat: -1,
@@ -117,15 +127,17 @@ export default abstract class Stage extends Phaser.Scene {
 		}
 	}
 
-	private addDoor(ob: Phaser.Types.Tilemaps.TiledObject) {
+	private addDoor(ob: Phaser.Types.Tilemaps.TiledObject, direction: StairsDirection) {
 		const { x, y, width, height } = ob;
 
-		if (x && y && width && height) {
+		if (typeof x !== 'undefined' && typeof y !== 'undefined' && typeof width !== 'undefined' && typeof height !== 'undefined') {
 			// @ts-ignore
-			let door = this.add.sprite(x + width / 2, y + height);
+			let door = this.physics.add.staticSprite(x + width / 2, y + height / 2);
 
-			door.setSize(width, height);
-			door.setOrigin(0.5, 0.5);
+			door.setDataEnabled();
+
+			door.data.set('direction', direction);
+			door.body.setSize(width, height);
 
 			this.doors.add(door);
 		}
@@ -135,7 +147,7 @@ export default abstract class Stage extends Phaser.Scene {
 	private addHides(ob: Phaser.Types.Tilemaps.TiledObject, tex: ObjectsTex) {
 		const { x, y, width, height } = ob;
 
-		if (x && y && width && height) {
+		if (typeof x !== 'undefined' && typeof y !== 'undefined' && typeof width !== 'undefined' && typeof height !== 'undefined') {
 			let table = this.add.sprite(x + width / 2, y + height, tex);
 
 			table.setDepth(Depth.Objects);

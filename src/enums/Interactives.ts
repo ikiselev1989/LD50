@@ -1,5 +1,6 @@
 export enum Interactives {
-	Door = 'Door',
+	DoorUp = 'DoorUp',
+	DoorDown = 'DoorDown',
 	Shredder = 'Shredder',
 	Pappers = 'Pappers',
 	Cleaner = 'Cleaner',

@@ -3,17 +3,13 @@ import Stage from '~/abstracts/Stage';
 
 export default class Playground extends Stage {
 	playerPosition: { x: number; y: number } = {
-		x: 16,
-		y: 288,
+		x: 48,
+		y: 192,
 	};
-	stageMap: string = 'test-map';
+	stageMap: string = 'stage1';
 
 	constructor() {
 		super(SCENES.PLAYGROUND);
-	}
-
-	preload() {
-		this.load.tilemapTiledJSON('test-map', 'test-map.json');
 	}
 
 	create() {
@@ -23,6 +19,4 @@ export default class Playground extends Stage {
 	update(time: number, delta: number) {
 		super.update(time, delta);
 	}
-
-
 }
