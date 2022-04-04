@@ -7,9 +7,8 @@ export default class Intro extends Scene {
 	private gonzoLogo!: Phaser.GameObjects.Image;
 	private phaserLogo!: Phaser.GameObjects.Image;
 
-	preload() {
-		this.load.image(Assets.Gonzologo, `/assets/${Assets.Gonzologo}.png`);
-		this.load.image(Assets.Phaserlogo, `/assets/${Assets.Phaserlogo}.png`);
+	constructor() {
+		super(SCENES.Intro);
 	}
 
 	create() {
@@ -70,6 +69,6 @@ export default class Intro extends Scene {
 			}),
 		);
 
-		this.scene.start(SCENES.Loader);
+		this.scene.start(SCENES.Start);
 	}
 }

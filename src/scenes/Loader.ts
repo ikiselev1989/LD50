@@ -10,6 +10,10 @@ export default class Loader extends Scene {
 	}
 
 	preload() {
+		this.load.image(Assets.Gonzologo, `/assets/${Assets.Gonzologo}.png`);
+		this.load.image(Assets.Phaserlogo, `/assets/${Assets.Phaserlogo}.png`);
+		this.load.image(Assets.MainScreen, `/assets/${Assets.MainScreen}.png`);
+
 		this.load.audio(ObjectsTex.Pappers, `/assets/${ObjectsTex.Pappers}.mp3`);
 		this.load.audio(ObjectsTex.Shredder, `/assets/${ObjectsTex.Shredder}.mp3`);
 		this.load.audio(Assets.Over, `/assets/${Assets.Over}.mp3`);
@@ -26,7 +30,7 @@ export default class Loader extends Scene {
 		this.load.image('tiles', `tiles.png`);
 
 		this.load.on('complete', () => {
-			this.scene.launch(SCENES.Scene3);
+			this.scene.launch(SCENES.Intro);
 		});
 	}
 }

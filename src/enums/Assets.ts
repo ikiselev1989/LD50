@@ -1,5 +1,6 @@
 export enum Assets {
 	Gonzologo = 'gonzo-13-logo',
 	Phaserlogo = 'phaser-logo',
-	Over = 'over'
+	Over = 'over',
+	MainScreen = 'main-screen'
 }
