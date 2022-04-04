@@ -13,6 +13,7 @@ export default class Loader extends Scene {
 		this.load.image(Assets.Gonzologo, `/assets/${Assets.Gonzologo}.png`);
 		this.load.image(Assets.Phaserlogo, `/assets/${Assets.Phaserlogo}.png`);
 		this.load.image(Assets.MainScreen, `/assets/${Assets.MainScreen}.png`);
+		this.load.image(Assets.MainScreen2, `/assets/${Assets.MainScreen2}.png`);
 
 		this.load.audio(ObjectsTex.Pappers, `/assets/${ObjectsTex.Pappers}.mp3`);
 		this.load.audio(ObjectsTex.Shredder, `/assets/${ObjectsTex.Shredder}.mp3`);
