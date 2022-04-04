@@ -8,9 +8,9 @@ export default class Stage1 extends Stage {
 	};
 	stageMap: string = 'stage1';
 	timeOut: number = 25000;
-	nextSceneName = SCENES.SCENE2;
+	nextSceneName = SCENES.Scene2;
 
 	constructor() {
-		super(SCENES.SCENE1);
+		super(SCENES.Scene1);
 	}
 }

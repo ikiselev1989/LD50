@@ -6,7 +6,7 @@ import { Assets } from '~/enums/Assets';
 
 export default class Loader extends Scene {
 	constructor() {
-		super(SCENES.LOADER);
+		super(SCENES.Loader);
 	}
 
 	preload() {
@@ -26,7 +26,7 @@ export default class Loader extends Scene {
 		this.load.image('tiles', `tiles.png`);
 
 		this.load.on('complete', () => {
-			this.scene.launch(SCENES.SCENE2);
+			this.scene.launch(SCENES.Scene3);
 		});
 	}
 }

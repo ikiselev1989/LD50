@@ -1,6 +1,7 @@
 export enum SCENES {
-	INTRO = 'intro',
-	LOADER = 'loader',
-	SCENE1 = 'scene1',
-	SCENE2 = 'scene2'
+	Intro = 'intro',
+	Loader = 'loader',
+	Scene1 = 'scene1',
+	Scene2 = 'scene2',
+	Scene3 = 'scene3'
 }

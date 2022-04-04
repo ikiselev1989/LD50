@@ -70,6 +70,6 @@ export default class Intro extends Scene {
 			}),
 		);
 
-		this.scene.start(SCENES.LOADER);
+		this.scene.start(SCENES.Loader);
 	}
 }
