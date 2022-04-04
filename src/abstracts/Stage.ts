@@ -80,7 +80,7 @@ export default abstract class Stage extends Phaser.Scene {
 	private createMap() {
 		this.map = this.make.tilemap({ key: this.stageMap });
 
-		const tileset = this.map.addTilesetImage('tiles', 'tiles');
+		const tileset = this.map.addTilesetImage('tiles', 'tiles', 16, 16, 0, 0);
 
 		this.map.createLayer(MapLayers.Back, tileset);
 		this.map.createLayer(MapLayers.SubMiddle, tileset);
@@ -122,11 +122,11 @@ export default abstract class Stage extends Phaser.Scene {
 	}
 
 	private addCleaner(ob: Phaser.Types.Tilemaps.TiledObject) {
-		const { x, y } = ob;
+		const { x, y, width, height } = ob;
 		this.anims.createFromAseprite(CharacterTex.Cleaner);
 
-		if (typeof x !== 'undefined' && typeof y !== 'undefined') {
-			let cleaner = this.add.sprite(x, y, CharacterTex.Cleaner).play({ key: 'Cleaner-Clean', repeat: -1 });
+		if (typeof x !== 'undefined' && typeof y !== 'undefined' && typeof width !== 'undefined' && typeof height !== 'undefined') {
+			let cleaner = this.add.sprite(x + width / 2, y + height, CharacterTex.Cleaner).play({ key: 'Cleaner-Clean', repeat: -1 });
 
 			cleaner.setOrigin(0.5, 1);
 		}

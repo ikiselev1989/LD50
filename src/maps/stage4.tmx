@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="31" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="36">
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="40" height="31" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="37">
  <editorsettings>
   <export target="../../public/stage4.json" format="json"/>
  </editorsettings>
@@ -177,5 +177,6 @@
   <object id="32" name="DoorDown" x="336" y="320" width="32" height="64"/>
   <object id="33" name="Shredder" x="416" y="245" width="16" height="17"/>
   <object id="35" name="Pappers" x="352" y="158" width="9" height="8"/>
+  <object id="36" name="Cleaner" x="240" y="176" width="16" height="16"/>
  </objectgroup>
 </map>
