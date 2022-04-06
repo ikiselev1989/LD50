@@ -129,6 +129,8 @@ export default class Player {
 	}
 
 	private async useDoor(sprite: Sprite) {
+		if (!this.canMove) return;
+
 		this.sprite.setVelocityX(0);
 
 		this.sprite.play({ key: 'Corrupt-Idle', repeat: -1 });

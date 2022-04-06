@@ -10,13 +10,14 @@ import Stage3 from '~/scenes/Stage3';
 import Stage4 from '~/scenes/Stage4';
 import Intro from '~/scenes/Intro';
 import Start from '~/scenes/Start';
+import Outro from '~/scenes/Outro';
 
 const config = {
 	type: Phaser.AUTO,
 	backgroundColor: '#422531',
 	width: 640 * 0.75,
 	height: 360 * 0.75,
-	scene: [Loader, Intro, Start, Stage1, Stage2, Stage3, Stage4],
+	scene: [Loader, Intro, Start, Stage1, Stage2, Stage3, Stage4, Outro],
 	pixelArt: true,
 	scale: {
 		mode: Phaser.Scale.ScaleModes.FIT,
