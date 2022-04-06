@@ -41,6 +41,8 @@ export default abstract class Stage extends Phaser.Scene {
 		this.createPlayer();
 
 		this.countdown();
+
+		this.input.keyboard.on('keydown-R', this.gameOver.bind(this));
 	}
 
 	private async countdown() {
